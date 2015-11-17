@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uid: 1
+  code: 1
+  road: MyString
+  desc: MyString
+  lat: 1.5
+  long: 1.5
+  zip: 1
+
+two:
+  uid: 1
+  code: 1
+  road: MyString
+  desc: MyString
+  lat: 1.5
+  long: 1.5
+  zip: 1

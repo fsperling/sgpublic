@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uid: 1
+  busnumber: 1
+  direction: 1
+  type: 
+  start_code: 1
+  end_code: 1
+  freq_am_peak: MyString
+  freq_am_off: MyString
+  freq_pm_peak: MyString
+  freq_pm_off: MyString
+  loop_code: 1
+
+two:
+  uid: 1
+  busnumber: 1
+  direction: 1
+  type: 
+  start_code: 1
+  end_code: 1
+  freq_am_peak: MyString
+  freq_am_off: MyString
+  freq_pm_peak: MyString
+  freq_pm_off: MyString
+  loop_code: 1

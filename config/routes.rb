@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
 
-  match '/busstops/generate',  to: 'busstops#generate',            via: 'get'
-  match '/busstops',            to: 'busstops#list',            via: 'get'
-  match '/map',                  to: 'route_map#show',               via: 'get'
+  match '/busstops/generate',  to: 'busstops#generate',        via: 'get'
+  match '/busstops',           to: 'busstops#list',            via: 'get'
+  match '/map',                to: 'route_map#show',           via: 'get'
 
-  match '/busroutes/generate',  to: 'busroutes#generate_route',            via: 'get'
-  match '/busroutes',            to: 'busroutes#list',            via: 'get'
-  match '/buslines/generate',  to: 'busroutes#generate_info',            via: 'get'
-  match '/buslines',            to: 'buslines#list',            via: 'get'
+  match '/busroutes/generate', to: 'busstops#generate_route',  via: 'get'
+  match '/busroutes',          to: 'busstops#list',            via: 'get'
+  match '/buslines/generate',  to: 'busstops#generate_info',   via: 'get'
+  match '/buslines',           to: 'busstops#list',            via: 'get'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

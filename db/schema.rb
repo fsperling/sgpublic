@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112050016) do
+ActiveRecord::Schema.define(version: 20151119130234) do
 
   create_table "buslines", force: true do |t|
     t.integer  "uid"
@@ -29,7 +29,21 @@ ActiveRecord::Schema.define(version: 20151112050016) do
     t.datetime "updated_at"
   end
 
-  create_table "busroutes", force: true do |t|
+  add_index "buslines", ["busnumber"], name: "index_buslines_on_busnumber"
+
+  create_table "busstop_details", force: true do |t|
+    t.integer  "uid"
+    t.integer  "busstop_id"
+    t.string   "road"
+    t.string   "desc"
+    t.float    "lat"
+    t.float    "long"
+    t.integer  "zip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "busstops", force: true do |t|
     t.integer  "uid"
     t.string   "busnumber"
     t.integer  "direction"
@@ -39,16 +53,7 @@ ActiveRecord::Schema.define(version: 20151112050016) do
     t.integer  "busstation_id"
   end
 
-  create_table "busstops", force: true do |t|
-    t.integer  "uid"
-    t.integer  "code"
-    t.string   "road"
-    t.string   "desc"
-    t.float    "lat"
-    t.float    "long"
-    t.integer  "zip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "busstops", ["busnumber"], name: "index_busstops_on_busnumber"
+  add_index "busstops", ["busstation_id"], name: "index_busstops_on_busstation_id"
 
 end

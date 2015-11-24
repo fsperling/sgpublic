@@ -19,9 +19,9 @@ class LtaApi
       if service.include?("Info") 
         store_busline(b, service)
       elsif service.include?("BusStop")
-        store_busstop(b, service, geoinfo)
+        store_busstop_detail(b, service, geoinfo)
       else
-        store_busroute(b, service)
+        store_busstop(b, service)
       end
     end
   end
@@ -47,8 +47,8 @@ class LtaApi
     return resu
   end
 
-  def store_busstop(b, service, geoinfo) 
-    bs = Busstop.new
+  def store_busstop_detail(b, service, geoinfo) 
+    bs = BusstopDetail.new
     bs["uid"] = b[service + "ID"].to_i
     bs["code"] = b["Code"].to_i
     bs["road"] = b["Road"]
@@ -71,17 +71,21 @@ class LtaApi
     bl["type_of_bus"] = b["SI_SVC_CAT"]
     bl["start_code"] = b["SI_BS_CODE_ST"].to_i
     bl["end_code"] = b["SI_BS_CODE_END"].to_i
-    bl["freq_am_peak"] = b["SI_FREQ_AM_PK"]
-    bl["freq_am_off"] = b["SI_FREQ_AM_OF"]
-    bl["freq_pm_peak"] = b["SI_FREQ_PM_PK"]
-    bl["freq_pm_off"] = b["SI_FREQ_PM_OF"]
+    bl["freq_am_peak"] = check_for_nil(b["SI_FREQ_AM_PK"])
+    bl["freq_am_off"] = check_for_nil(b["SI_FREQ_AM_OF"])
+    bl["freq_pm_peak"] = check_for_nil(b["SI_FREQ_PM_PK"])
+    bl["freq_pm_off"] = check_for_nil(b["SI_FREQ_PM_OF"])
     bl["loop_code"] = b["SI_LOOP"].to_i
     
     bl.save # response code of save
   end
 
-  def store_busroute(b, service)
-    br = Busroute.new
+  def check_for_nil(s) 
+    s == nil ? "-" : s.strip
+  end
+
+  def store_busstop(b, service)
+    br = Busstop.new
     br["uid"] = !b[service + "ID"].to_s.empty? ? b[service + "ID"].to_i : b[service + "ID"].to_i
     br["busnumber"] = !b["SI_SVC_NUM"].to_s.empty? ? b["SI_SVC_NUM"] : b["SR_SVC_NUM"]
     br["direction"] = !b["SI_SVC_DIR"].to_s.empty? ? b["SI_SVC_DIR"].to_i : b["SR_SVC_DIR"].to_i

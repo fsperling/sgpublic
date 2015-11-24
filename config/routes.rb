@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   match '/busstops/generate',  to: 'busstops#generate',        via: 'get'
   match '/busstops',           to: 'busstops#list',            via: 'get'
   match '/map',                to: 'route_map#show',           via: 'get'
+  match '/nightbusmap',        to: 'route_map#night',          via: 'get'
 
   match '/busroutes/generate', to: 'busstops#generate_route',  via: 'get'
   match '/busroutes',          to: 'busstops#list',            via: 'get'

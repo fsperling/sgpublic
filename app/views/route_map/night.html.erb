@@ -1,0 +1,6 @@
+<h2>Map of night busses of Singapore</h2>
+
+<%= content_tag "div", id: "features", data: {features: @features } do %> <% end %>
+<%= content_tag "div", id: "lines", data: {lines: @lines_json } do %> <% end %>
+
+<div id="map"></div>

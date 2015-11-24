@@ -13,23 +13,11 @@ $(document).ready ->
   features = $('#features').data('features')
   lines = $('#lines').data('lines')
 
-  # myLayer = L.geoJson.css().addTo map, { onEachFeature: onEachFeature }
   myLayer = L.geoJson.css("", onEachFeature: onEachFeature).addTo map
   myLayer.addData features  
   myLayer.addData lines
 
- 
-  #for station in station_details
-    #marker = L.marker([
-      #station.lat
-      #station.long
-    #]).addTo map
-
-    #marker.bindPopup(station.road + "<br>" + station.desc)
-
 
 onEachFeature = (feature, layer) ->
-  # does this feature have a property named popupContent?
   if feature.properties and feature.properties.popupContent
     layer.bindPopup feature.properties.popupContent
-  return

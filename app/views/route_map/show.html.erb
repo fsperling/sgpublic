@@ -1,8 +1,9 @@
-Map
+Map of some busses of Singapore
 
-<%= content_tag "div", id: "features", data: {features: @features } do %>
-<% end %>
-<%= content_tag "div", id: "lines", data: {lines: @lines_json } do %>
-<% end %>
+<%= content_tag "div", id: "features", data: {features: @features } do %> <% end %>
+<%= content_tag "div", id: "lines", data: {lines: @lines_json } do %> <% end %>
 
 <div id="map"></div>
+
+<br>
+<%= link_to "back", root_path  %>

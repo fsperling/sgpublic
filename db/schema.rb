@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151119130234) do
+ActiveRecord::Schema.define(version: 20151124014617) do
 
   create_table "buslines", force: true do |t|
     t.integer  "uid"
-    t.integer  "busnumber"
+    t.string   "busnumber"
     t.integer  "direction"
     t.string   "type_of_bus"
     t.integer  "start_code"

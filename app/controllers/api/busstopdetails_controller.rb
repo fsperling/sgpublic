@@ -3,17 +3,20 @@ class Api::BusstopdetailsController < ApplicationController
 
   def index
     if params[:busline_id]
-      respond_with Busline.where(busnumber: params[:busline_id]).first.busstops
+      @busstops = Busline.where(busnumber: params[:busline_id]).first.busstops
     else
-      respond_with BusstopDetail.all
+      @busstops = BusstopDetail.all
     end
+    respond_with @busstops
   end
 
   def show
     if params[:busline_id]
-      respond_with Busline.where(busnumber: params[:busline_id]).first.busstops.where(busstation_id: params[:id]).first.busstop_detail
+      @busstop = Busline.where(busnumber: params[:busline_id]).first.busstops.where(busstation_id: params[:id]).first.busstop_detail
     else
-      respond_with BusstopDetail.where(busstop_id: params[:id])
+      @busstop = BusstopDetail.where(busstop_id: params[:id]).first
     end
+
+    respond_with @busstop
   end
 end

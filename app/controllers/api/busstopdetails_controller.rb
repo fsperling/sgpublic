@@ -1,9 +1,11 @@
 class Api::BusstopdetailsController < ApplicationController
-  respond_to :json
+  respond_to :json, :geojson
 
   def index
     if params[:busline_id]
       @busstops = Busline.where(busnumber: params[:busline_id]).first.busstops
+      @coordinates = Busline.where(busnumber: params[:busline_id]).first.get_coords
+
     else
       @busstops = BusstopDetail.all
     end

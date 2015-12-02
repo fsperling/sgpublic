@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  namespace :api do
+    resources :buslines, defaults: { format: 'json' } do
+      resources :busstopdetails, defaults: { format: 'json' }
+    end
+
+    resources :busstopdetails, defaults: { format: 'json' }
+  end
+
   root 'welcome#index'
 
   match '/map',                to: 'route_map#show',           via: 'get'

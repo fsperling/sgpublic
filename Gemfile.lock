@@ -27,6 +27,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    angularjs-rails (1.4.7)
     arel (5.0.1.20140414130214)
     builder (3.2.2)
     byebug (8.2.0)
@@ -43,6 +44,10 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     execjs (2.6.0)
+    geokit (1.10.0)
+    geokit-rails (2.1.0)
+      geokit (~> 1.5)
+      rails (>= 3.0)
     hike (1.2.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -143,8 +148,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  angularjs-rails (~> 1.4, >= 1.4.7)
   byebug
   coffee-rails (~> 4.0.0)
+  geokit
+  geokit-rails
   jbuilder (~> 2.0)
   jquery-rails
   leaflet-rails

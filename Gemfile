@@ -52,3 +52,9 @@ gem 'leaflet-rails'
 
 # read and write geojson files
 gem 'rgeo-geojson'
+
+gem 'angularjs-rails', '~> 1.4', '>= 1.4.7'
+
+# provides distance calculations
+gem 'geokit-rails'
+gem 'geokit'

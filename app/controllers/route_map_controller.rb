@@ -7,14 +7,14 @@ class RouteMapController < ApplicationController
   def show
     @features = []
     @lines_json = []
-    lines = Busline.limit(50).where("direction == '1'").all.to_a
+    lines = Busline.limit(3).where("direction == '1'").all.to_a
     generate_json_for(lines)
   end
 
   def night
     @features = []
     @lines_json = []
-    lines = Busline.where("freq_am_peak == '-' and freq_am_off == '-' and freq_pm_peak == '-' and freq_pm_off != '-'").all.to_a
+    lines = Busline.search_by_attribute("night").all.to_a
     generate_json_for(lines)
   end
 

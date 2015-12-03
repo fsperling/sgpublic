@@ -1,28 +1,19 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+still very much work in progress
 
-Things you may want to cover:
+=== Frontend
+from / you can access different views of the bus network in Singapore
 
-* Ruby version
+=== REST API
 
-* System dependencies
+/api/buslines/{id}/busstopdetails/{id}
+/api/busstopdetails/{id}
 
-* Configuration
+=== Data import
+The data is from the LTA API
 
-* Database creation
+A new import can be triggered via
+/busstops/generate_route
+/busstops/generate_info
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.

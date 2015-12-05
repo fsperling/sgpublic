@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20151124014617) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "buslines", force: true do |t|
     t.integer  "uid"
     t.string   "busnumber"
@@ -29,7 +32,7 @@ ActiveRecord::Schema.define(version: 20151124014617) do
     t.datetime "updated_at"
   end
 
-  add_index "buslines", ["busnumber"], name: "index_buslines_on_busnumber"
+  add_index "buslines", ["busnumber"], name: "index_buslines_on_busnumber", using: :btree
 
   create_table "busstop_details", force: true do |t|
     t.integer  "uid"
@@ -53,7 +56,7 @@ ActiveRecord::Schema.define(version: 20151124014617) do
     t.integer  "busstation_id"
   end
 
-  add_index "busstops", ["busnumber"], name: "index_busstops_on_busnumber"
-  add_index "busstops", ["busstation_id"], name: "index_busstops_on_busstation_id"
+  add_index "busstops", ["busnumber"], name: "index_busstops_on_busnumber", using: :btree
+  add_index "busstops", ["busstation_id"], name: "index_busstops_on_busstation_id", using: :btree
 
 end

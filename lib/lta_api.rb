@@ -29,7 +29,7 @@ class LtaApi
   def fetchInfoAbout(service)
     offset = 0
     url = Base_url + service + "Set"
-    resu = ""
+    result = ""
 
     loop do
       response = RestClient.get url, {:params => {'$skip' => offset }, :accept => :json, :AccountKey => Account_key, :UniqueUserID => User_id}
@@ -38,13 +38,13 @@ class LtaApi
       end
 
       next_elements = JSON.parse response
-      resu = [resu, next_elements["d"]].flatten!
+      result = [result, next_elements["d"]].flatten!
 
       offset += 50
       break if next_elements["d"].size != 50
     end
  
-    return resu
+    return result
   end
 
   def store_busstop_detail(b, service, geoinfo) 

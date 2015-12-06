@@ -2,7 +2,7 @@ require 'lta_api'
 
 class LtaApiWorker
   include Sidekiq::Worker
-  #sidekiq_options retry: false
+  sidekiq_options retry: false
   
   def perform
     # remove old data first

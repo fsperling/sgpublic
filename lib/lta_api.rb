@@ -90,7 +90,7 @@ class LtaApi
     br["busnumber"] = !b["SI_SVC_NUM"].to_s.empty? ? b["SI_SVC_NUM"] : b["SR_SVC_NUM"]
     br["direction"] = !b["SI_SVC_DIR"].to_s.empty? ? b["SI_SVC_DIR"].to_i : b["SR_SVC_DIR"].to_i
     br["stop_number"] = b["SR_ROUT_SEQ"].to_i
-    br["busstation_id"] = b["SR_BS_CODE"].to_i
+    br["busstop_id"] = b["SR_BS_CODE"].to_i
         
     br.save # response code of save
   end

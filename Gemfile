@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.2'
+#ruby '2.1.2'
 
 # heroku support
 gem 'rails_12factor'
@@ -61,3 +61,7 @@ gem 'angularjs-rails', '~> 1.4', '>= 1.4.7'
 # provides distance calculations
 gem 'geokit-rails'
 gem 'geokit'
+
+# async jobs
+gem 'sidekiq'
+gem 'sinatra', require: false # for frontend

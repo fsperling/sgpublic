@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151124014617) do
+ActiveRecord::Schema.define(version: 20151206010612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,10 +53,10 @@ ActiveRecord::Schema.define(version: 20151124014617) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "stop_number"
-    t.integer  "busstation_id"
+    t.integer  "busstop_id"
   end
 
   add_index "busstops", ["busnumber"], name: "index_busstops_on_busnumber", using: :btree
-  add_index "busstops", ["busstation_id"], name: "index_busstops_on_busstation_id", using: :btree
+  add_index "busstops", ["busstop_id"], name: "index_busstops_on_busstop_id", using: :btree
 
 end

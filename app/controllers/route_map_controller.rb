@@ -7,7 +7,7 @@ class RouteMapController < ApplicationController
   def show
     @features = []
     @lines_json = []
-    lines = Busline.limit(3).where("direction == '1'").all.to_a
+    lines = Busline.limit(3).where(direction: 1).all.to_a
     generate_json_for(lines)
   end
 

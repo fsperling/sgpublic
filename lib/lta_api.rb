@@ -50,7 +50,7 @@ class LtaApi
   def store_busstop_detail(b, service, geoinfo) 
     bs = BusstopDetail.new
     bs["uid"] = b[service + "ID"].to_i
-    bs["code"] = b["Code"].to_i
+    bs["busstop_id"] = b["Code"].to_i
     bs["road"] = b["Road"]
     bs["desc"] = b["Description"]
         

@@ -1,4 +1,4 @@
-json.busstation_id @busstop.busstop_id
+json.busstop_id @busstop.busstop_id
 json.road @busstop.road
 json.desc @busstop.desc
 json.lat @busstop.lat

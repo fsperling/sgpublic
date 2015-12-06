@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   namespace :api do
     resources :buslines, defaults: { format: 'json' } do
@@ -17,8 +19,12 @@ Rails.application.routes.draw do
   match '/map',                to: 'route_map#show',           via: 'get'
   match '/nightbusmap',        to: 'route_map#night',          via: 'get'
 
-  match '/busstops/generate_route',  to: 'busstops#generate_route',  via: 'get'
-  match '/busstops/generate_info',   to: 'busstops#generate_info',   via: 'get'
+  match '/importdata',         to: 'busstops#import_lta_data',  via: 'get'
+
+
+  resources :snippets
+  #root to: "snippets#new"
+  mount Sidekiq::Web, at: "/sidekiq"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

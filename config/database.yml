@@ -28,3 +28,4 @@ production:
   database: sgpublic_prod
   username: sgpublic
   password: 
+  pool: 25

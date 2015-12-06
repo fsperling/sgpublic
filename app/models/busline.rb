@@ -46,7 +46,7 @@ class Busline < ActiveRecord::Base
     end
 
     stops = BusstopDetail.within(dist.to_f/1000, origin: [lat, long]).map(&:busstop_id)
-    lines = Busstop.where(busstation_id: stops).map(&:busnumber).uniq
+    lines = Busstop.where(busstop_id: stops).map(&:busnumber).uniq
   end
 
 end

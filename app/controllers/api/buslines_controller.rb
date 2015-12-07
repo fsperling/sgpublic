@@ -7,8 +7,8 @@ class Api::BuslinesController < ApplicationController
   end
 
   def show
-    # TODO well, busnumber should be unique, but each line has two directions
-   @busline = Busline.where(busnumber: params[:id]).first 
-   respond_with @busline
+    # TODO: well, busnumber should be unique, but each line has two directions
+    @busline = Busline.where(busnumber: params[:id]).first
+    respond_with @busline
   end
 end

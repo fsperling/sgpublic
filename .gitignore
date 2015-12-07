@@ -23,3 +23,6 @@ config/secrets.yml
 
 # dont include generated files
 /data/*
+
+# dont include rubocop config
+.rubocop.yml

@@ -65,3 +65,6 @@ gem 'geokit'
 # async jobs
 gem 'sidekiq'
 gem 'sinatra', require: false # for frontend
+
+# enforce ruby coding style
+gem 'rubocop', require: false

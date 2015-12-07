@@ -4,7 +4,7 @@ class Api::BusstopdetailsController < ApplicationController
   def index
     if params[:busline_id]
       @busstops = Busline.where(busnumber: params[:busline_id]).first.busstops
-      @coordinates = Busline.where(busnumber: params[:busline_id]).first.get_coords
+      @coordinates = Busline.where(busnumber: params[:busline_id]).first.coords
 
     else
       @busstops = BusstopDetail.all
@@ -14,7 +14,8 @@ class Api::BusstopdetailsController < ApplicationController
 
   def show
     if params[:busline_id]
-      @busstop = Busline.where(busnumber: params[:busline_id]).first.busstops.where(busstop_id: params[:id]).first.busstop_detail
+      busstops = Busline.where(busnumber: params[:busline_id]).first.busstops
+      @busstop = busstops.where(busstop_id: params[:id]).first.busstop_detail
     else
       @busstop = BusstopDetail.where(busstop_id: params[:id]).first
     end

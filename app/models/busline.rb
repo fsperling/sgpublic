@@ -7,7 +7,7 @@ class Busline < ActiveRecord::Base
 
   def get_coords
     line_coords = []
-    self.busstops.map(&:busstop_detail).each do |stop|
+    self.busstops.pluck(:busstop_detail).each do |stop|
 
       unless stop == nil
         if stop.long == nil || stop.lat == nil
@@ -45,8 +45,8 @@ class Busline < ActiveRecord::Base
       long = stop[:long]
     end
 
-    stops = BusstopDetail.within(dist.to_f/1000, origin: [lat, long]).map(&:busstop_id)
-    lines = Busstop.where(busstop_id: stops).map(&:busnumber).uniq
+    stops = BusstopDetail.within(dist.to_f/1000, origin: [lat, long]).pluck(:busstop_id)
+    lines = Busstop.where(busstop_id: stops).pluck(:busnumber).uniq
   end
 
 end

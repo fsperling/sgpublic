@@ -2,17 +2,17 @@ require 'rest-client'
 require 'json'
 
 class LtaApi
-  BASE_URL = "http://datamall.mytransport.sg/ltaodataservice.svc/"
+  Base_url = "http://datamall.mytransport.sg/ltaodataservice.svc/"
   Account_key = ENV['DATAMALL_ACCOUNT_KEY']
   User_id = ENV['DATAMALL_USER_ID']
+  Busstop_geoinfo_path = 'data/BusStop_Oct2015/busstops.json'
 
   def getDataFor(service) 
     businfo = fetch_info_about(service)
 
     geoinfo = ''
     if service.include?('BusStop')
-      geoinfopath = 'data/BusStop_Oct2015/busstops.json'
-      geoinfo = JSON.parse(File.read(geoinfopath))
+      geoinfo = JSON.parse(File.read(Busstop_geoinfo_path))
     end
 
     businfo.each do |b|
@@ -27,8 +27,8 @@ class LtaApi
   end
 
   def fetch_info_about(service)
-    offset = 0
     url = Base_url + service + 'Set'
+    offset = 0
     result = ''
 
     loop do
@@ -71,27 +71,27 @@ class LtaApi
     bl['type_of_bus'] = b['SI_SVC_CAT']
     bl['start_code'] = b['SI_BS_CODE_ST'].to_i
     bl['end_code'] = b['SI_BS_CODE_END'].to_i
-    bl['freq_am_peak'] = check_for_nil(b['SI_FREQ_AM_PK'])
-    bl['freq_am_off'] = check_for_nil(b['SI_FREQ_AM_OF'])
-    bl['freq_pm_peak'] = check_for_nil(b['SI_FREQ_PM_PK'])
-    bl['freq_pm_off'] = check_for_nil(b['SI_FREQ_PM_OF'])
+    bl['freq_am_peak'] = sanitize_bus_freq(b['SI_FREQ_AM_PK'])
+    bl['freq_am_off'] = sanitize_bus_freq(b['SI_FREQ_AM_OF'])
+    bl['freq_pm_peak'] = sanitize_bus_freq(b['SI_FREQ_PM_PK'])
+    bl['freq_pm_off'] = sanitize_bus_freq(b['SI_FREQ_PM_OF'])
     bl['loop_code'] = b['SI_LOOP'].to_i
 
     bl.save # response code of save
   end
 
-  def check_for_nil(s)
+  def sanitize_bus_freq(s)
     s.nil? ? '-' : s.strip
   end
 
   def store_busstop(b, service)
-    br = Busstop.new
-    br['uid'] = !b[service + 'ID'].to_s.empty? ? b[service + 'ID'].to_i : b[service + 'ID'].to_i
-    br['busnumber'] = !b['SI_SVC_NUM'].to_s.empty? ? b['SI_SVC_NUM'] : b['SR_SVC_NUM']
-    br['direction'] = !b['SI_SVC_DIR'].to_s.empty? ? b['SI_SVC_DIR'].to_i : b['SR_SVC_DIR'].to_i
-    br['stop_number'] = b['SR_ROUT_SEQ'].to_i
-    br['busstop_id'] = b['SR_BS_CODE'].to_i
+    bs = Busstop.new
+    bs['uid'] = !b[service + 'ID'].to_s.empty? ? b[service + 'ID'].to_i : b[service + 'ID'].to_i
+    bs['busnumber'] = !b['SI_SVC_NUM'].to_s.empty? ? b['SI_SVC_NUM'] : b['SR_SVC_NUM']
+    bs['direction'] = !b['SI_SVC_DIR'].to_s.empty? ? b['SI_SVC_DIR'].to_i : b['SR_SVC_DIR'].to_i
+    bs['stop_number'] = b['SR_ROUT_SEQ'].to_i
+    bs['busstop_id'] = b['SR_BS_CODE'].to_i
 
-    br.save # response code of save
+    bs.save # response code of save
   end
 end

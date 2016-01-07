@@ -19,19 +19,25 @@ class Busline < ActiveRecord::Base
     line_coords
   end
 
+  def night_buslines
+      Busline.where("freq_am_peak == '-' and freq_am_off == '-' and freq_pm_peak == '-' and freq_pm_off != '-'")
+  end
+
   def self.search_by_busnumber(number)
     Busline.where(busnumber: number).first
   end
 
   def self.search_by_attribute(attribute)
     if attribute.eql? 'night'
-      Busline.where("freq_am_peak == '-' and freq_am_off == '-' and freq_pm_peak == '-' and freq_pm_off != '-'")
+      night_buslines
     end
   end
 
   def self.search_by_area(params)
-    dist = params[:dist] ||= 100
+    default_dist = 100
+    dist = params[:dist] ||= default_dist
     dist_in_km = dist.to_f / 1000
+
     if params.key?('lat') && params.key?('long')
       lat = params[:lat]
       long = params[:long]

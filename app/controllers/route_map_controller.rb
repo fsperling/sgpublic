@@ -22,12 +22,12 @@ class RouteMapController < ApplicationController
     @features += [{ type: 'Feature', properties: { name: stop.road, popupContent: desc }, geometry: { type: 'Point', coordinates: [stop.long, stop.lat] } }]
   end
 
-  def generate_json_for(lines)
-    lines.each do |line|
-      add_features_for_stop(line, line.busstops.first.busstop_detail)
-      add_features_for_stop(line, line.busstops.last.busstop_detail)
+  def generate_json_for(buslines)
+    buslines.each do |busline|
+      add_features_for_stop(busline, busline.busstops.first.busstop_detail)
+      add_features_for_stop(busline, busline.busstops.last.busstop_detail)
 
-      line_coords = line.coords
+      line_coords = busline.coords
       color = format('#%06x', (rand * 0xffffff))
       @lines_json += [{ type: 'LineString', coordinates: line_coords, style: { color: color, opacity: 0.5, weight: 2 } }]
 

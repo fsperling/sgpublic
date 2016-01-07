@@ -43,6 +43,8 @@ gem 'byebug', group: [:development, :test]
 gem 'pry-rails', group: :development
 gem 'pry', group: :development
 
+gem 'better_errors', group: :development
+gem 'binding_of_caller', group: :development
 
 gem 'rest-client'
 

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 #ruby '2.1.2'
 
 # heroku support
-gem 'rails_12factor'
+gem 'rails_12factor', group: :production
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
@@ -40,8 +40,8 @@ gem 'spring',        group: :development
 
 # Use debugger
 gem 'byebug', group: [:development, :test]
-gem 'pry-rails', group: :development
-gem 'pry', group: :development
+#gem 'pry-rails', group: :development
+#gem 'pry', group: :development
 
 gem 'better_errors', group: :development
 gem 'binding_of_caller', group: :development

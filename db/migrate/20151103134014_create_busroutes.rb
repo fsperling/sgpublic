@@ -1,6 +1,6 @@
 class CreateBusroutes < ActiveRecord::Migration
   def change
-    create_table :busroutes do |t|
+    create_table :busroutes, {id: false} do |t|
       t.integer :uid
       t.string  :busnumber
       t.integer :direction

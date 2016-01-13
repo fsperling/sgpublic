@@ -5,7 +5,6 @@ class LtaApiWorker
   sidekiq_options retry: false
 
   def perform
-    # remove old data first
     LtaApi.new.getDataFor('SBSTInfo')
     LtaApi.new.getDataFor('SMRTInfo')
     LtaApi.new.getDataFor('SBSTRoute')

@@ -23,9 +23,10 @@ class Busline < ActiveRecord::Base
       Busline.where("freq_am_peak = '-' and freq_am_off = '-' and freq_pm_peak = '-' and freq_pm_off != '-'")
   end
 
-  def self.search_by_busnumber(number)
-    Busline.where(busnumber: number).first
-  end
+  # bit useless
+  #def self.search_by_busnumber(number)
+    #Busline.where(busnumber: number).first
+  #end
 
   def self.search_by_attribute(attribute)
     if attribute.eql? 'night'

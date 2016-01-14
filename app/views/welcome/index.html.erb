@@ -3,4 +3,33 @@
 <ul>
 <li><%= link_to "All lines", map_path  %></li>
 <li><%= link_to "Night lines", nightbusmap_path %></li>
+</ul>
+
+<h2>API</h2>
+<h3>Buslines resource</h3>
+<%= link_to "/api/buslines", api_buslines_path %><br/>
+<%= link_to "/api/buslines/{busline_id}", "/api/buslines/12" %><br/>
+<%= link_to "/api/buslines/{busline_id}/busstopdetails", "/api/buslines/12/busstopdetails" %><br/>
+<%= link_to "/api/buslines/{busline_id}/busstopdetails/{id}", "/api/buslines/12/busstopdetails/78071" %>
+<h3>Busstopdetails resource</h3>
+<%= link_to "/api/busstopdetails", api_busstopdetails_path %><br/>
+<%= link_to "/api/busstopdetails/{id}", "/api/busstopdetails/78071" %>
+
+<h3>Search buslines</h3>
+By attribute<br/>
+<%= link_to "/api/search/buslines?attribute=night", "/api/search/buslines?attribute=night" %><br/>
+<br/>
+By area using coordinates, zip code or busstop id<br/>
+<%= link_to "/api/search/buslines?busstation=1013&dist=700", "/api/search/buslines?busstation=1013&dist=700" %><br/>
+<%= link_to "/api/search/buslines?lat=1.312&long=103.906", "/api/search/buslines?lat=1.312&long=103.906&dist=1000" %><br/>
+<%= link_to "/api/search/buslines?zipcode=424352", "/api/search/buslines?zipcode=424352&dist=1000" %>
+
+<!--
+<h3>Search busstops</h3>
+/api/search/busstops
+-->
+<h2>Admin</h2>
 <ul>
+<li><%= link_to "Start import from LTA", importdata_path  %></li>
+<li><%= link_to "Sidekiq", sidekiq_web_path %></li>
+</ul>

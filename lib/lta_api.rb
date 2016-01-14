@@ -47,7 +47,7 @@ class LtaApi
 
   def store_busstop_detail(bs_details, service, geoinfo)
     bs_details.each do |b|
-      bs = BusstopDetail.where(uid: b[service + 'ID'].to_i).first_or_create
+      bs = BusstopDetail.where(id: b[service + 'ID'].to_i).first_or_create
       bs['busstop_id'] = b['Code'].to_i
       bs['road'] = b['Road']
       bs['desc'] = b['Description']
@@ -57,19 +57,20 @@ class LtaApi
         bs['long'] = geoinfo['features'][i]['geometry']['coordinates'][0]
         bs['lat'] = geoinfo['features'][i]['geometry']['coordinates'][1]
       end
-      # update in case already exists? changes of desc for example
+
+      Rails.logger.debug bs.inspect
       if bs.valid?
         bs.save
       else
-        Rails.logger.warn "Invalid " + bs.class + " object" + bs.inspect
+        Rails.logger.warn "Invalid " + bs.class.to_s + " object" + bs.inspect
       end
     end
   end
 
   def store_busline(buslines, service)
     buslines.each do |b|
-      bl = Busline.where(uid: b[service + 'ID'].to_i).first_or_create
-      #bl['uid'] = !b[service + 'ID'].to_s.empty? ? b[service + 'ID'].to_i : b[service + 'ID'].to_i
+      bl = Busline.where(id: b[service + 'ID'].to_i).first_or_create
+      #bl['id'] = !b[service + 'ID'].to_s.empty? ? b[service + 'ID'].to_i : b[service + 'ID'].to_i
       bl['busnumber'] = b['SI_SVC_NUM']
       bl['direction'] = b['SI_SVC_DIR'].to_i
       bl['type_of_bus'] = b['SI_SVC_CAT']
@@ -95,8 +96,8 @@ class LtaApi
 
   def store_busstop(busstops, service)
     busstops.each do |b|
-      bs = Busstop.where(uid: b[service + 'ID'].to_i).first_or_create
-      #bs['uid'] = !b[service + 'ID'].to_s.empty? ? b[service + 'ID'].to_i : b[service + 'ID'].to_i
+      bs = Busstop.where(id: b[service + 'ID'].to_i).first_or_create
+      #bs['id'] = !b[service + 'ID'].to_s.empty? ? b[service + 'ID'].to_i : b[service + 'ID'].to_i
       bs['busnumber'] = !b['SI_SVC_NUM'].to_s.empty? ? b['SI_SVC_NUM'] : b['SR_SVC_NUM']
       bs['direction'] = !b['SI_SVC_DIR'].to_s.empty? ? b['SI_SVC_DIR'].to_i : b['SR_SVC_DIR'].to_i
       bs['stop_number'] = b['SR_ROUT_SEQ'].to_i
@@ -105,7 +106,7 @@ class LtaApi
       if bs.valid?
         bs.save
       else
-        Rails.logger.warn "Invalid " + bs.class + " object: " + bs.inspect
+        Rails.logger.warn "Invalid " + bs.class.to_s + " object: " + bs.inspect
       end
     end
   end

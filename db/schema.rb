@@ -11,13 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151206010612) do
+ActiveRecord::Schema.define(version: 20160114013028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "buslines", id: false, force: true do |t|
-    t.integer  "uid"
+  create_table "buslines", force: true do |t|
     t.string   "busnumber"
     t.integer  "direction"
     t.string   "type_of_bus"
@@ -34,8 +33,7 @@ ActiveRecord::Schema.define(version: 20151206010612) do
 
   add_index "buslines", ["busnumber"], name: "index_buslines_on_busnumber", using: :btree
 
-  create_table "busstop_details", id: false, force: true do |t|
-    t.integer  "uid"
+  create_table "busstop_details", force: true do |t|
     t.integer  "busstop_id"
     t.string   "road"
     t.string   "desc"
@@ -46,8 +44,7 @@ ActiveRecord::Schema.define(version: 20151206010612) do
     t.datetime "updated_at"
   end
 
-  create_table "busstops", id: false, force: true do |t|
-    t.integer  "uid"
+  create_table "busstops", force: true do |t|
     t.string   "busnumber"
     t.integer  "direction"
     t.datetime "created_at"

@@ -5,10 +5,10 @@ class LtaApiWorker
   sidekiq_options retry: false
 
   def perform
-    LtaApi.new.getDataFor('SBSTInfo')
-    LtaApi.new.getDataFor('SMRTInfo')
-    LtaApi.new.getDataFor('SBSTRoute')
-    LtaApi.new.getDataFor('SMRTRoute')
+ #   LtaApi.new.getDataFor('SBSTInfo')
+ #   LtaApi.new.getDataFor('SMRTInfo')
+ #   LtaApi.new.getDataFor('SBSTRoute')
+ #   LtaApi.new.getDataFor('SMRTRoute')
     LtaApi.new.getDataFor('BusStopCode')
     # check and clean data for missing or wrong info
   end

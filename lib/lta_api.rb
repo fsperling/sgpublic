@@ -7,7 +7,7 @@ class LtaApi
   User_id = ENV['DATAMALL_USER_ID']
   Busstop_geoinfo_path = 'data/BusStop_Oct2015/busstops.json'
 
-  def getDataFor(service) 
+  def get_data_for(service) 
     geoinfo = ''
     if service.include?('BusStop')
       geoinfo = JSON.parse(File.read(Busstop_geoinfo_path))
@@ -15,12 +15,11 @@ class LtaApi
 
     url = Base_url + service + 'Set'
     offset = 0
-    result = ''
 
     loop do
       response = RestClient.get url, params: { '$skip' => offset }, accept: :json, AccountKey: Account_key, UniqueUserID: User_id
       if response.code != 200
-        # log error
+        Rails.logger.warn "URL: #{url} and params: #{params} returned with code: #{response.code}"
       end
 
       elements = JSON.parse response
@@ -31,7 +30,6 @@ class LtaApi
       break if elements['d'].size != 50
     end
 
-    result
   end
 
   def save_elements(elements, service, geoinfo)  
@@ -58,7 +56,6 @@ class LtaApi
         bs['lat'] = geoinfo['features'][i]['geometry']['coordinates'][1]
       end
 
-      Rails.logger.debug bs.inspect
       if bs.valid?
         bs.save
       else
@@ -70,18 +67,17 @@ class LtaApi
   def store_busline(buslines, service)
     buslines.each do |b|
       bl = Busline.where(id: b[service + 'ID'].to_i).first_or_create
-      #bl['id'] = !b[service + 'ID'].to_s.empty? ? b[service + 'ID'].to_i : b[service + 'ID'].to_i
-      bl['busnumber'] = b['SI_SVC_NUM']
-      bl['direction'] = b['SI_SVC_DIR'].to_i
-      bl['type_of_bus'] = b['SI_SVC_CAT']
-      bl['start_code'] = b['SI_BS_CODE_ST'].to_i
-      bl['end_code'] = b['SI_BS_CODE_END'].to_i
+      bl['busnumber']    = b['SI_SVC_NUM']
+      bl['direction']    = b['SI_SVC_DIR'].to_i
+      bl['type_of_bus']  = b['SI_SVC_CAT']
+      bl['start_code']   = b['SI_BS_CODE_ST'].to_i
+      bl['end_code']     = b['SI_BS_CODE_END'].to_i
+      bl['loop_code']    = b['SI_LOOP'].to_i
       bl['freq_am_peak'] = sanitize_bus_freq(b['SI_FREQ_AM_PK'])
-      bl['freq_am_off'] = sanitize_bus_freq(b['SI_FREQ_AM_OF'])
+      bl['freq_am_off']  = sanitize_bus_freq(b['SI_FREQ_AM_OF'])
       bl['freq_pm_peak'] = sanitize_bus_freq(b['SI_FREQ_PM_PK'])
-      bl['freq_pm_off'] = sanitize_bus_freq(b['SI_FREQ_PM_OF'])
-      bl['loop_code'] = b['SI_LOOP'].to_i
-      #Rails.logger.debug pp bl
+      bl['freq_pm_off']  = sanitize_bus_freq(b['SI_FREQ_PM_OF'])
+      
       if bl.valid? 
         bl.save
       else
@@ -97,11 +93,10 @@ class LtaApi
   def store_busstop(busstops, service)
     busstops.each do |b|
       bs = Busstop.where(id: b[service + 'ID'].to_i).first_or_create
-      #bs['id'] = !b[service + 'ID'].to_s.empty? ? b[service + 'ID'].to_i : b[service + 'ID'].to_i
-      bs['busnumber'] = !b['SI_SVC_NUM'].to_s.empty? ? b['SI_SVC_NUM'] : b['SR_SVC_NUM']
-      bs['direction'] = !b['SI_SVC_DIR'].to_s.empty? ? b['SI_SVC_DIR'].to_i : b['SR_SVC_DIR'].to_i
+      bs['busnumber']   = !b['SI_SVC_NUM'].to_s.empty? ? b['SI_SVC_NUM'] : b['SR_SVC_NUM']
+      bs['direction']   = !b['SI_SVC_DIR'].to_s.empty? ? b['SI_SVC_DIR'].to_i : b['SR_SVC_DIR'].to_i
       bs['stop_number'] = b['SR_ROUT_SEQ'].to_i
-      bs['busstop_id'] = b['SR_BS_CODE'].to_i
+      bs['busstop_id']  = b['SR_BS_CODE'].to_i
 
       if bs.valid?
         bs.save

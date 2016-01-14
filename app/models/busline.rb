@@ -7,10 +7,10 @@ class Busline < ActiveRecord::Base
 
   def coords
     line_coords = []
-    busstops.pluck(:busstop_detail).each do |stop|
+    busstops.map(&:busstop_detail).each do |stop|
       unless stop.nil?
         if stop.long.nil? || stop.lat.nil?
-          # log error: no coords
+          Rails.logger.error "Busstop has no coords: #{stop}"
         else
           line_coords += [[stop.long, stop.lat]]
         end
@@ -19,8 +19,8 @@ class Busline < ActiveRecord::Base
     line_coords
   end
 
-  def night_buslines
-      Busline.where("freq_am_peak == '-' and freq_am_off == '-' and freq_pm_peak == '-' and freq_pm_off != '-'")
+  def self.night_buslines
+      Busline.where("freq_am_peak = '-' and freq_am_off = '-' and freq_pm_peak = '-' and freq_pm_off != '-'")
   end
 
   def self.search_by_busnumber(number)

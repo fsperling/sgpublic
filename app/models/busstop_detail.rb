@@ -8,4 +8,17 @@ class BusstopDetail < ActiveRecord::Base
   # would be better, there are still some without coords, geocode with help of other API?
   # validates :lat, presence: true
   # validates :long, presence: true
+
+  def self.without_coords
+    BusstopDetail.where('lat IS NULL or long IS NULL')
+  end
+
+  def self.delete_without_coords
+    ids = without_coords.pluck(:busstop_id)
+    n = Busstop.where(busstop_id: ids).delete_all
+    Rails.logger.info "Deleted #{n} busstops without busstop_details"
+
+    n = without_coords.delete_all
+    Rails.logger.info "Deleted #{n} busstops_details without coordinates."
+  end
 end

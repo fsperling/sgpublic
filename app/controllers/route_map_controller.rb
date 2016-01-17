@@ -6,7 +6,16 @@ class RouteMapController < ApplicationController
   def show
     @features = []
     @lines_json = []
-    lines = Busline.limit(3).where(direction: 1).all.to_a
+
+    if params.key?(:max)
+      if params[:max].to_i <= 0
+        lines = Busline.where(direction: 1).all.to_a
+      elsif
+        lines = Busline.limit(params[:max]).where(direction: 1).all.to_a
+      end
+    elsif
+      lines = Busline.limit(10).where(direction: 1).all.to_a
+    end
     generate_json_for(lines)
   end
 

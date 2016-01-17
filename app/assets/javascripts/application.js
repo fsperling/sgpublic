@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require angular
 //= require leaflet
 //= require leaflet.geojsoncss
 //= require_tree .

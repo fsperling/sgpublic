@@ -10,7 +10,7 @@ class LtaApiWorker
 #    LtaApi.new.get_data_for('SMRTInfo')
 #    LtaApi.new.get_data_for('SBSTRoute')
 #    LtaApi.new.get_data_for('SMRTRoute')
-    LtaApi.new.get_data_for('BusStopCode')
+#    LtaApi.new.get_data_for('BusStopCode')
 
     LtaData.new.check_data
   end

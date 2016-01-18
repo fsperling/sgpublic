@@ -1,4 +1,4 @@
-var app, onEachFeature, map, myLayer;
+var onEachFeature, map, myLayer;
 
 $(document).ready(function() {
   var features, lines;
@@ -10,15 +10,14 @@ $(document).ready(function() {
     accessToken: 'pk.eyJ1IjoiZnhzcCIsImEiOiJjaWd0Y3E4c2gwN2RvdGhrbjhtbmx1c3p3In0.ztPbhslQyLXLWR3c32vpGw'
   }).addTo(map);
 
-
-  features = $('#features').data('features');
-  lines = $('#lines').data('lines');
-
   myLayer = L.geoJson.css("", {
     onEachFeature: onEachFeature
   }).addTo(map);
+
+  features = $('#features').data('features');
   myLayer.addData(features);
 
+  lines = $('#lines').data('lines');
   return myLayer.addData(lines);
 });
 
@@ -29,28 +28,4 @@ onEachFeature = function(feature, layer) {
   }
 };
 
-app = angular.module('buslineSelect', []);
 
-app.controller('ExampleController', 
-  ['$scope', '$http', function($scope, $http) {
-    $http.get('api/buslines').success(function(data) {
-      $scope.lines = data.buslines;
-    });
-
-    $scope.displayBusline = function(number) {
-      $http.get('api/buslines/' + number + '/busstopdetails.geojson').success(function(lines) {
-        myLayer.addData(lines);
-      });
-      $http.get('api/buslines/' + number + '.geojson').success(function(features) {
-        myLayer.addData(features) 
-      });  
-    };
-
-    $scope.clearMap = function() {
-     map.removeLayer(myLayer);
-     myLayer = L.geoJson.css("", {
-       onEachFeature: onEachFeature
-     }).addTo(map);
-   
-    };
-}]);

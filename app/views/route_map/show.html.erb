@@ -3,7 +3,7 @@
 <%= content_tag "div", id: "features", data: {features: @features } do %> <% end %>
 <%= content_tag "div", id: "lines", data: {lines: @lines_json } do %> <% end %>
 
-<div class="col-md-4" ng-controller="ExampleController">
+<div class="col-md-4" ng-controller="BusCtrl">
   <div>
         <label for="query" class="col-xs-4 control-label">Filter list:</label>
         <input ng-model="query" class="col-xs-4">

@@ -35,7 +35,7 @@ class Busline < ActiveRecord::Base
   end
 
   def self.search_by_area(params)
-    default_dist = 100
+    default_dist = 700
     dist = params[:dist] ||= default_dist
     dist_in_km = dist.to_f / 1000
 

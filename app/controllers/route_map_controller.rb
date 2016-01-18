@@ -16,7 +16,7 @@ class RouteMapController < ApplicationController
     elsif
       lines = Busline.limit(10).where(direction: 1).all.to_a
     end
-    generate_json_for(lines)
+    #generate_json_for(lines)
   end
 
   def night
@@ -33,8 +33,8 @@ class RouteMapController < ApplicationController
 
   def generate_json_for(buslines)
     buslines.each do |busline|
-      add_features_for_stop(busline, busline.busstops.first.busstop_detail)
-      add_features_for_stop(busline, busline.busstops.last.busstop_detail)
+      add_features_for_stop(busline, BusstopDetail.where(busstop_id: busline.start_code).first)
+      add_features_for_stop(busline, BusstopDetail.where(busstop_id: busline.end_code).first)
 
       line_coords = busline.coords
       color = format('#%06x', (rand * 0xffffff))

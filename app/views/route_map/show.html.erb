@@ -1,9 +1,26 @@
+<div class="row">
 <h1>Map of some busses in Singapore</h1>
-
 <%= content_tag "div", id: "features", data: {features: @features } do %> <% end %>
 <%= content_tag "div", id: "lines", data: {lines: @lines_json } do %> <% end %>
 
-<div id="map"></div>
+<div class="col-md-2">
+  <div id="controls" ng-controller="ExampleController">
+      Search: <input ng-model="query">
+
+        <select size="20" multiple class="form-control" >
+          <option ng-click="displayBusline(line.busnumber)" ng-repeat="line in lines | filter:query">{{line.busnumber}}</option>
+        </select>
+
+        <a ng-click="clearMap()" class="btn btn-default btn-sm btn-primary" href="#" role="button">Clear map</a>
+  </div>
 
 <br>
 <%= link_to "back", root_path  %>
+
+</div>
+
+<div class="col-md-10">
+  <div id="map"></div>
+</div>
+
+</div>

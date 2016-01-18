@@ -6,6 +6,6 @@ json.array! @stops do |stop|
   end
   json.geometry do 
     json.type "Point"
-    json.coordinates [stop.lat, stop.long]
+    json.coordinates [stop.long, stop.lat]
   end
 end

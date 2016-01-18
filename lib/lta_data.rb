@@ -5,9 +5,14 @@ class LtaData
 
   def check_data 
     find_busstops_without_coords
-    find_busstops_without_details
+
+    # TODO find_buslines_where_start_or_endstop_doesnt_exist
+    # SQL:
+    #delete from buslines where busnumber in( select distinct(busnumber) from buslines where start_code not in (select busstop_id from busstops)
+    #OR end_code not in (select busstop_id from busstops))
   end
 
+  # delete busstops without coords from BusstopDetail and Busstop tables
   def find_busstops_without_coords
     fixed = 0
     busrouter_data = JSON.parse(File.read(Busrouter_data_path))
@@ -35,7 +40,4 @@ class LtaData
     BusstopDetail.delete_without_coords
   end
 
-  def find_busstops_without_details
-
-  end
 end

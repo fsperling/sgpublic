@@ -16,7 +16,7 @@ class RouteMapController < ApplicationController
     elsif
       lines = Busline.limit(10).where(direction: 1).all.to_a
     end
-    #generate_json_for(lines)
+    generate_json_for(lines)
   end
 
   def night

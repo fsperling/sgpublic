@@ -29,11 +29,11 @@ app.controller('BusCtrl',
 
     $scope.searchBuslines = function(query) {
       if (query.lat != null && query.long != null) {
-        getNearbyLinesFor('lat=' + query.lat + '&long=' + query.long);
+        getNearbyLinesFor('lat=' + query.lat + '&long=' + query.long, query.dist);
       } else if (query.zip != null) {
-        getNearbyLinesFor('zipcode=' + query.zip);
+        getNearbyLinesFor('zipcode=' + query.zip, query.dist);
       } else if (query.stopid != null) {
-        getNearbyLinesFor('busstation=' + query.stopid);
+        getNearbyLinesFor('busstation=' + query.stopid, query.dist);
       }
     };
 
@@ -42,10 +42,14 @@ app.controller('BusCtrl',
       search.long = "";
       search.zip = "";
       search.stopid = "";
+      search.dist = "";
       $scope.searchForm.$setPristine(true);
     };
 
-    var getNearbyLinesFor = function(param) {
+    var getNearbyLinesFor = function(param, dist) {
+        if (dist != null) {
+          param = param + '&dist=' + dist
+        }
         $http.get('api/search/buslines?' + param).success(function(lines) {
         angular.forEach(lines, function(line) {
           getAndDrawBusline(line);

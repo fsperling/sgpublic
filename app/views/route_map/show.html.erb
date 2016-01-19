@@ -4,18 +4,17 @@
 <%= content_tag "div", id: "lines", data: {lines: @lines_json } do %> <% end %>
 
 <div class="col-md-4" ng-controller="BusCtrl">
-  <div>
+  <div class="row" style="padding-bottom:10px">
         <label for="query" class="col-xs-4 control-label">Filter list:</label>
         <input ng-model="query" class="col-xs-4">
 
         <select size="20" multiple class="form-control col-xs-4" >
           <option ng-click="displayBusline(line.busnumber)" ng-repeat="line in lines | filter:query">{{line.busnumber}}</option>
         </select>
-
   </div>
 
-    <br>
-    Search nearby buslines by:
+  <div class="row" style="padding-bottom:10px">
+    <b>Search nearby buslines by:</b>
     <form name="searchForm" class="form-horizontal">
   
     <div class="form-group">
@@ -40,14 +39,20 @@
             <input ng-model="search.stopid" type="text" class="form-control col-xs-4" name="busstopid" placeholder="busstop code"/>
         </div>
     </div>
+    <div class="form-group">
+        <label for="dist" class="col-xs-4 control-label">Distance:</label>
+        <div class="col-xs-4">
+            <input ng-model="search.dist" type="text" class="form-control col-xs-4" name="busstopid" placeholder="max distance in m"/>
+        </div>
+    </div>
     <button ng-click="searchBuslines(search)" type="submit" class="btn btn-default btn-sm btn-primary">Search</button>
     <button ng-click="resetForm(search)" type="submit" class="btn btn-default btn-sm btn-primary">Reset</button>
     </form> 
+  </div>
 
+  <div class="row">
   <a ng-click="clearMap()" class="btn btn-default btn-sm btn-primary" href="#" role="button">Clear map</a>
-
-<br>
-<%= link_to "back", root_path  %>
+  </div>
 
 </div>
 

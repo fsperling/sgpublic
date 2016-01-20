@@ -3,7 +3,7 @@ class Api::Search::BuslinesController < ApplicationController
 
   def index
     # bit useless
-    #if params.key?(:number)
+    # if params.key?(:number)
     #  @response = Busline.search_by_busnumber(params[:number])
     if params.key?(:attribute)
       @response = Busline.search_by_attribute(params[:attribute])

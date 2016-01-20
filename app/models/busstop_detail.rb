@@ -9,6 +9,14 @@ class BusstopDetail < ActiveRecord::Base
   # validates :lat, presence: true
   # validates :long, presence: true
 
+  def self.stops_nearby_to(coord, dist)
+    BusstopDetail.within(dist, origin: coord).pluck(:busstop_id)
+  end
+  
+  def self.details_for(stop_id)
+      BusstopDetail.where(busstop_id: stop_id).first
+  end
+
   def self.without_coords
     BusstopDetail.where('lat IS NULL or long IS NULL')
   end

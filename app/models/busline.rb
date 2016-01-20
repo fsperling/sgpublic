@@ -1,6 +1,5 @@
 class Busline < ActiveRecord::Base
   has_many :busstops, foreign_key: 'busnumber', primary_key: 'busnumber'
-
   validates :busnumber, presence: true
   validates :start_code, presence: true
   validates :end_code, presence: true
@@ -34,25 +33,33 @@ class Busline < ActiveRecord::Base
     end
   end
 
-  def self.search_by_area(params)
-    default_dist = 700
-    dist = params[:dist] ||= default_dist
+  def self.find_nearby_to(params)
+    dist = params[:dist] || 700
     dist_in_km = dist.to_f / 1000
 
+    coord = coord_for(params)
+    stops = BusstopDetail.stops_nearby_to(coord, dist_in_km)
+    Busstop.buslines_frequenting(stops)
+  end
+
+  def self.location_by_zipcode(zip)
+      Geokit::Geocoders::GoogleGeocoder.geocode zip
+  end
+
+  def self.coord_for(params)
     if params.key?('lat') && params.key?('long')
       lat = params[:lat]
       long = params[:long]
     elsif params.key?('zipcode')
-      loc = Geokit::Geocoders::GoogleGeocoder.geocode params[:zipcode] + 'Singapore'
+      loc = location_by_zipcode(params[:zipcode] + 'Singapore')
       lat = loc.lat
       long = loc.lng
     elsif params.key?('busstation')
-      stop = BusstopDetail.where(busstop_id: params[:busstation]).first
+      stop = BusstopDetail.details_for(params[:busstation])
       lat = stop[:lat]
       long = stop[:long]
     end
 
-    stops = BusstopDetail.within(dist_in_km, origin: [lat, long]).pluck(:busstop_id)
-    Busstop.where(busstop_id: stops).pluck(:busnumber).uniq
+    [lat, long]
   end
 end

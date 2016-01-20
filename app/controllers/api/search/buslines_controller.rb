@@ -8,7 +8,7 @@ class Api::Search::BuslinesController < ApplicationController
     if params.key?(:attribute)
       @response = Busline.search_by_attribute(params[:attribute])
     elsif params.key?(:lat) || params.key?(:zipcode) || params.key?(:busstation)
-      @response = Busline.search_by_area(params)
+      @response = Busline.find_nearby_to(params)
     end
 
     respond_with @response

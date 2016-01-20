@@ -5,4 +5,8 @@ class Busstop < ActiveRecord::Base
       validates :busnumber, presence: true
       validates :busstop_id, presence: true
       validates :stop_number, presence: true
+
+      def self.buslines_frequenting(stops)
+          Busstop.where(busstop_id: stops).pluck(:busnumber).uniq
+      end
 end

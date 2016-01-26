@@ -23,7 +23,7 @@ class LtaApi
       end
 
       elements = JSON.parse response
-      save_elements(elements['d'], service, geoinfo)
+      _save_elements(elements['d'], service, geoinfo)
       
 
       offset += 50
@@ -32,19 +32,32 @@ class LtaApi
 
   end
 
-  def save_elements(elements, service, geoinfo)  
-      if service.include?('Info')
-        store_busline(elements, service)
-      elsif service.include?('BusStop')
-        store_busstop_detail(elements, service, geoinfo)
-      else
-        store_busstop(elements, service)
-      end
+  def _save_elements(elements, service, geoinfo)  
+    elements.each do |from|
+      to = _map_elements(from, service, geoinfo)
+      _save_element(to)
+    end
   end
 
+  def _save_element(e)
+    if e.valid?
+      e.save
+    else
+      Rails.logger.warn "Invalid #{e.class} object #{e.inspect}"
+    end
+  end
 
-  def store_busstop_detail(bs_details, service, geoinfo)
-    bs_details.each do |b|
+  def _map_elements(from, service, geoinfo)
+    if service.include?('Info')
+      to = _map_busline(from, service)
+    elsif service.include?('BusStop')
+      to = _map_busstop_details(from, service, geoinfo)
+    else
+      to = _map_busstop(from, service)
+    end
+  end
+
+  def _map_busstop_details(b, service, geoinfo)
       bs = BusstopDetail.where(id: b[service + 'ID'].to_i).first_or_create
       bs['busstop_id'] = b['Code'].to_i
       bs['road'] = b['Road']
@@ -56,16 +69,10 @@ class LtaApi
         bs['lat'] = geoinfo['features'][i]['geometry']['coordinates'][1]
       end
 
-      if bs.valid?
-        bs.save
-      else
-        Rails.logger.warn "Invalid " + bs.class.to_s + " object" + bs.inspect
-      end
-    end
+      bs
   end
 
-  def store_busline(buslines, service)
-    buslines.each do |b|
+  def _map_busline(b, service)
       bl = Busline.where(id: b[service + 'ID'].to_i).first_or_create
       bl['busnumber']    = b['SI_SVC_NUM']
       bl['direction']    = b['SI_SVC_DIR'].to_i
@@ -73,36 +80,23 @@ class LtaApi
       bl['start_code']   = b['SI_BS_CODE_ST'].to_i
       bl['end_code']     = b['SI_BS_CODE_END'].to_i
       bl['loop_code']    = b['SI_LOOP'].to_i
-      bl['freq_am_peak'] = sanitize_bus_freq(b['SI_FREQ_AM_PK'])
-      bl['freq_am_off']  = sanitize_bus_freq(b['SI_FREQ_AM_OF'])
-      bl['freq_pm_peak'] = sanitize_bus_freq(b['SI_FREQ_PM_PK'])
-      bl['freq_pm_off']  = sanitize_bus_freq(b['SI_FREQ_PM_OF'])
-      
-      if bl.valid? 
-        bl.save
-      else
-        Rails.logger.warn "Invalid busline object: " + bl.inspect
-      end
-    end
+      bl['freq_am_peak'] = _sanitize_bus_freq(b['SI_FREQ_AM_PK'])
+      bl['freq_am_off']  = _sanitize_bus_freq(b['SI_FREQ_AM_OF'])
+      bl['freq_pm_peak'] = _sanitize_bus_freq(b['SI_FREQ_PM_PK'])
+      bl['freq_pm_off']  = _sanitize_bus_freq(b['SI_FREQ_PM_OF'])
+      bl
   end
 
-  def sanitize_bus_freq(s)
+  def _sanitize_bus_freq(s)
     s.nil? ? '-' : s.strip
   end
 
-  def store_busstop(busstops, service)
-    busstops.each do |b|
+  def _map_busstop(b, service)
       bs = Busstop.where(id: b[service + 'ID'].to_i).first_or_create
       bs['busnumber']   = !b['SI_SVC_NUM'].to_s.empty? ? b['SI_SVC_NUM'] : b['SR_SVC_NUM']
       bs['direction']   = !b['SI_SVC_DIR'].to_s.empty? ? b['SI_SVC_DIR'].to_i : b['SR_SVC_DIR'].to_i
       bs['stop_number'] = b['SR_ROUT_SEQ'].to_i
       bs['busstop_id']  = b['SR_BS_CODE'].to_i
-
-      if bs.valid?
-        bs.save
-      else
-        Rails.logger.warn "Invalid " + bs.class.to_s + " object: " + bs.inspect
-      end
-    end
+      bs
   end
 end

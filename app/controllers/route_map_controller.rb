@@ -16,6 +16,9 @@ class RouteMapController < ApplicationController
     generate_json_for(lines)
   end
 
+  def test
+  end
+
   def night
     @features = []
     @lines_json = []

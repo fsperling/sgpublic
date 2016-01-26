@@ -16,7 +16,6 @@
 /tmp
 
 *.swp
-*.kate-swp
 *~
 
 # Ignore env files with tokens & secrets

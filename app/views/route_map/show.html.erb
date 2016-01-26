@@ -4,30 +4,26 @@
 <%= content_tag "div", id: "lines", data: {lines: @lines_json } do %> <% end %>
 
 <div class="col-md-4" ng-controller="BusCtrl">
-
   <div class="row" style="padding-bottom:10px">
         <label for="query" class="col-xs-4 control-label">Filter list:</label>
         <input ng-model="query" class="col-xs-4">
 
         <select size="20" multiple class="form-control col-xs-4" >
-          <option ng-click="displayBusline(line.busnumber)" ng-repeat="line in lines | filter:query">{{ line.busnumber }}</option>
+          <option ng-click="displayBusline(line.busnumber)" ng-repeat="line in lines | filter:query">{{line.busnumber}}</option>
         </select>
   </div>
 
   <div class="row" style="padding-bottom:10px">
     <b>Search nearby buslines by:</b>
     <form name="searchForm" class="form-horizontal">
-  <div class="form-group">
-    <button ng-click="location()" type="submit" class="btn btn-default btn-sm btn-primary">Use my location</button>
-    </div>
-
+  
     <div class="form-group">
         <label for="coords" class="col-xs-4 control-label">Coordinates:</label>
         <div class="col-xs-4">
             <input ng-model="search.lat" type="text" class="form-control" placeholder="1.31"/>
         </div>
         <div class="col-xs-4">
-            <input ng-model="search.lng" type="text" class="form-control" placeholder="103.9"/>
+            <input ng-model="search.long" type="text" class="form-control" placeholder="103.9"/>
         </div>
     </div>
 
@@ -61,7 +57,7 @@
 </div>
 
 <div class="col-md-8">
-
-<leaflet lf-center="center" width="100%" height="600px"></leaflet>
+  <div id="map"></div>
+</div>
 
 </div>

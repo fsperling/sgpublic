@@ -14,8 +14,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require angular
-//= require angular-simple-logger
 //= require leaflet
 //= require leaflet.geojsoncss
-//= require ui-leaflet
 //= require_tree .

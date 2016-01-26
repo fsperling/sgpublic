@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   match '/map',                to: 'route_map#show',           via: 'get'
   match '/nightbusmap',        to: 'route_map#night',          via: 'get'
+  match '/test',               to: 'route_map#test',           via: 'get'
 
   match '/importdata',         to: 'busstops#import_lta_data',  via: 'get'
 

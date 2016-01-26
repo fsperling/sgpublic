@@ -53,13 +53,15 @@ gem 'rest-client'
 gem 'rgeo-shapefile'
 gem 'rgeo'
 
-# interactive maps
-gem 'leaflet-rails'
-
 # read and write geojson files
 gem 'rgeo-geojson'
 
-gem 'angularjs-rails', '~> 1.4', '>= 1.4.8'
+source 'https://rails-assets.org' do
+  gem 'rails-assets-angular', '~> 1.3.6'
+  gem 'rails-assets-leaflet', '~> 0.7.3'
+  gem 'rails-assets-ui-leaflet'
+  gem 'rails-assets-angular-simple-logger'
+end
 
 # provides distance calculations
 gem 'geokit-rails'

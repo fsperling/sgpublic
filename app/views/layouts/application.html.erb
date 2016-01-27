@@ -2,11 +2,16 @@
 <html>
 <head>
   <title>Singapore Public Transport</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.js"></script>
+    <script src="http://angular-ui.github.io/ui-leaflet/bower_components/angular-simple-logger/dist/angular-simple-logger.js"></script>
+
+
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
   <%= csrf_meta_tags %>
 </head>
-<body ng-app="app">
+<body ng-app="sgapp">
 
     <header class="navbar navbar-fixed-top navbar-inverse">
       <div class="container">

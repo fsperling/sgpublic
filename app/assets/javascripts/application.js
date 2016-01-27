@@ -11,9 +11,10 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
-//= require turbolinks
+//= require jquery_ujs      
 //= require angular
 //= require leaflet
-//= require leaflet.geojsoncss
+//= require ui-leaflet
+//= require turbolinks
 //= require_tree .
+

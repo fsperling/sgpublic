@@ -2,9 +2,9 @@ require 'rest-client'
 require 'json'
 
 class LtaApi
-  Base_url = "http://datamall.mytransport.sg/ltaodataservice.svc/"
-  Account_key = ENV['DATAMALL_ACCOUNT_KEY']
   User_id = ENV['DATAMALL_USER_ID']
+  Account_key = ENV['DATAMALL_ACCOUNT_KEY']
+  Base_url = "http://datamall.mytransport.sg/ltaodataservice.svc/"
   Busstop_geoinfo_path = 'data/BusStop_Oct2015/busstops.json'
 
   def get_data_for(service) 

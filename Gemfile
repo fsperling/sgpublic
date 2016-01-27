@@ -61,7 +61,7 @@ gem 'rgeo'
 gem 'rgeo-geojson'
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-angular', '~> 1.3.6'
+  gem 'rails-assets-angular', '~> 1.4.9'
   gem 'rails-assets-leaflet', '~> 0.7.3'
   gem 'rails-assets-ui-leaflet'
   gem 'rails-assets-angular-simple-logger'

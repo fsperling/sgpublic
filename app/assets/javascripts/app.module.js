@@ -14,7 +14,9 @@ app.controller("BusCtrl",
       });
 
     $scope.searchBuslines = function(query) {
-      if (query.lat != null && query.lng != null) {
+      if (query.loc == true) {
+        searchByLocation();
+      } else if (query.lat != null && query.lng != null) {
         getNearbyLinesFor('lat=' + query.lat + '&long=' + query.lng, query.dist);
       } else if (query.zip != null) {
         getNearbyLinesFor('zipcode=' + query.zip, query.dist);
@@ -29,6 +31,7 @@ app.controller("BusCtrl",
     });
 
     $scope.resetForm = function(search) {
+      search.loc = "";
       search.lat = "";
       search.lng = "";
       search.zip = "";
@@ -89,7 +92,8 @@ app.controller("BusCtrl",
       });
     };
 
-    $scope.location = function(ip) {
+    function searchByLocation(ip) {
+        ip = ip || ""
         var url = "http://freegeoip.net/json/" + ip;
         $http.get(url).success(function(res) {
             $scope.center = {

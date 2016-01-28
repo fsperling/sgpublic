@@ -15,6 +15,7 @@
 //= require angular
 //= require leaflet
 //= require ui-leaflet
+//= require Leaflet.awesome-markers
 //= require turbolinks
 //= require_tree .
 

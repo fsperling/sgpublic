@@ -65,6 +65,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-leaflet', '~> 0.7.3'
   gem 'rails-assets-ui-leaflet'
   gem 'rails-assets-angular-simple-logger'
+  gem 'rails-assets-Leaflet.awesome-markers'
 end
 
 # provides distance calculations

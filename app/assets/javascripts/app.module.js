@@ -10,14 +10,17 @@ app.controller("BusCtrl",
         },
         defaults: {},
         markers: {},
-        geojson:{}
+        paths: {},
+        geojson: {}
       });
 
     $scope.searchBuslines = function(query) {
       if (query.loc == true) {
-        searchByLocation();
+        searchByLocation(query.dist);
       } else if (query.lat != null && query.lng != null) {
         getNearbyLinesFor('lat=' + query.lat + '&long=' + query.lng, query.dist);
+        addHomeIcon(query.lat, query.lng);
+        addCircleAroundHome(query.lat, query.lng, query.dist);
       } else if (query.zip != null) {
         getNearbyLinesFor('zipcode=' + query.zip, query.dist);
       } else if (query.stopid != null) {
@@ -29,6 +32,30 @@ app.controller("BusCtrl",
     $http.get('api/buslines').success(function(data) {
       $scope.lines = data.buslines;
     });
+
+    var addHomeIcon = function(lat, lng) {
+      angular.extend($scope.markers["homeLocation"] = {
+        lat: parseFloat(lat),
+        lng: parseFloat(lng),
+        icon: {
+          type: 'awesomeMarker',
+          icon: 'home',
+          markerColor: 'red'
+        }
+      });
+    };
+  
+    var addCircleAroundHome = function(lat, lng, r) {
+        angular.extend($scope.paths["circle"] = {
+              type: "circle",
+              weight: 1,
+              color: 'red',
+              fillColor: 'red',
+              opacity: 0.5,
+              radius: r,
+              latlngs: [ lat, lng ]
+          });
+    };
 
     $scope.resetForm = function(search) {
       search.loc = "";
@@ -50,8 +77,7 @@ app.controller("BusCtrl",
                     opacity: 1,
                     color: get_random_color(),
                 }
-            }
-        );
+            });
     });
     };
 
@@ -66,8 +92,7 @@ app.controller("BusCtrl",
         angular.extend($scope.markers[id] = {
                 lat: element['geometry']['coordinates'][1],
                 lng: element['geometry']['coordinates'][0]
-            }
-        );
+            });
     }
 
     $scope.displayBusline = function(number) {
@@ -92,19 +117,21 @@ app.controller("BusCtrl",
       });
     };
 
-    function searchByLocation(ip) {
-        ip = ip || ""
-        var url = "http://freegeoip.net/json/" + ip;
+    function searchByLocation(dist) {
+        dist = dist || 300;
+        var url = "http://freegeoip.net/json/";
         $http.get(url).success(function(res) {
             $scope.center = {
                 lat: res.latitude,
                 lng: res.longitude,
-                zoom: 12
+                zoom: 16
             };
             //$scope.center = { autoDiscover: true };
             $scope.ip = res.ip;
             console.log(res);
-            getNearbyLinesFor('lat=' + res.latitude + '&long=' + res.longitude, 400);
+            addHomeIcon(res.latitude, res.longitude);
+            addCircleAroundHome(res.latitude, res.longitude, dist); 
+            getNearbyLinesFor('lat=' + res.latitude + '&long=' + res.longitude, dist);
             //getNearbyLinesFor('lat=' + $scope.center.lat + '&long=' + $scope.center.lng , 400);
         });
     };

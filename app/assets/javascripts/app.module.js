@@ -4,9 +4,9 @@ app.controller("BusCtrl",
   ["$scope", "$http", function($scope, $http) {
       angular.extend($scope, {
         center: {
-          lat: 1.33,
-          lng: 103.8,
-          zoom: 10
+          lat: 1.36,
+          lng: 103.83,
+          zoom: 12
         },
         defaults: {},
         markers: {},

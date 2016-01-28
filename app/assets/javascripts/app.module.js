@@ -105,7 +105,6 @@ app.controller("BusCtrl",
         });
     };
 
-    $scope.location("");
 
     getAndDrawBusline("12");
     getAndDrawMarkerForBusline("12");

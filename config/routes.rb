@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     end
 
     resources :busstopdetails, defaults: { format: 'json' }
+    resources :geocode, :only => [:index], defaults: { format: 'json' }
     
     namespace :search do
       resources :buslines, :only => [:index], defaults: { format: 'json' }

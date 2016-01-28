@@ -1,3 +1,5 @@
+require 'geocoder'
+
 class Busline < ActiveRecord::Base
   has_many :busstops, foreign_key: 'busnumber', primary_key: 'busnumber'
   validates :busnumber, presence: true
@@ -35,30 +37,34 @@ class Busline < ActiveRecord::Base
     dist = params[:dist] || 700
     dist_in_km = dist.to_f / 1000
 
-    coord = coords_for(params)
+    coord = _coords_for(params)
     stops = BusstopDetail.stops_nearby_to(coord, dist_in_km)
     Busstop.buslines_frequenting(stops)
   end
 
-  def self.location_by_zipcode(zip)
-    Geokit::Geocoders::GoogleGeocoder.geocode zip
-  end
 
-  def self.coords_for(params)
+  def self._coords_for(params)
     if params.key?('lat') && params.key?('long')
       [params[:lat], params[:long]]
     else
-      retrieve_coords(params)
+      _retrieve_coords(params)
     end
   end
 
-  def self.retrieve_coords(params)
+  def self._retrieve_coords(params)
     if params.key?('zipcode')
-      loc = location_by_zipcode(params[:zipcode] + 'Singapore')
-      [loc.lat, loc.lng]
+      loc = _loc_by_zipcode(params[:zipcode])
     elsif params.key?('busstation')
-      stop = BusstopDetail.details_for(params[:busstation])
-      [stop[:lat], stop[:long]]
+      loc = _loc_by_stopid(params[:busstation])
     end
+    [loc[:lat], loc[:long]]
+  end
+
+  def self._loc_by_zipcode(zip)
+    Geocoder.new.location_by_zipcode(zip + 'Singapore')
+  end
+
+  def self._loc_by_stopid(stopid)
+    Geocoder.new.location_by_stopid(stopid)
   end
 end

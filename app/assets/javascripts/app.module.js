@@ -23,17 +23,29 @@ app.controller("BusCtrl",
         addCircleAroundHome(query.lat, query.lng, query.dist);
       } else if (query.zip != null) {
         getNearbyLinesFor('zipcode=' + query.zip, query.dist);
+        loc = geocode('zipcode', query.zip)
       } else if (query.stopid != null) {
-        getNearbyLinesFor('busstation=' + query.stopid, query.dist);
+        //getNearbyLinesFor('busstation=' + query.stopid, query.dist);
+        $scope.loc = [];
+        geocode('busstation', query.stopid)
+        console.log($scope.loc);
+        addHomeIcon($scope.loc[0], $scope.loc[1]);
       }
     };
 
+    function geocode(param, descriptor) {
+      query = '?' + param + '=' + descriptor;
+      $http.get('api/geocode' + query).success(function(data) {
+        angular.extend($scope, { loc: data });
+      });
+    }
 
     $http.get('api/buslines').success(function(data) {
       $scope.lines = data.buslines;
     });
 
     var addHomeIcon = function(lat, lng) {
+      console.log(lat + ' ' + lng);
       angular.extend($scope.markers["homeLocation"] = {
         lat: parseFloat(lat),
         lng: parseFloat(lng),
